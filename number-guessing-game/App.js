@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -14,9 +14,21 @@ export default function App() {
   const [count, setCount] = useState(1);
   const [inputNum, setInputNum] = useState("");
   const [message, setMessage] = useState("Guess a number between 1-100");
+  const [reset, setReset] = useState(false);
   const [randomNum, setRandomNum] = useState(
     Math.floor(Math.random() * 100) + 1
   );
+
+  useEffect(() => {
+    if (reset == true) {
+      setRandomNum(Math.floor(Math.random() * 100) + 1);
+      setCount(1);
+      setMessage("");
+      setInputNum("");
+      setReset(false);
+      setMessage("Guess a number between 1-100");
+    }
+  }, [reset]);
 
   const handlePress = () => {
     setCount(count + 1);
@@ -32,12 +44,15 @@ export default function App() {
         ? (endOfLine = `${count} guesses`)
         : (endOfLine = `${count} guess`);
       Alert.alert("Congratulations", "You guessed the number in " + endOfLine);
+      setReset(true);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text>{message}</Text>
+      <Text>
+        {message} {randomNum}
+      </Text>
       <TextInput
         style={styles.input}
         keyboardType="numeric"
