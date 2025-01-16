@@ -13,7 +13,7 @@ import {
 export default function App() {
   const [count, setCount] = useState(1);
   const [inputNum, setInputNum] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("Guess a number between 1-100");
   const [randomNum, setRandomNum] = useState(
     Math.floor(Math.random() * 100) + 1
   );
@@ -21,6 +21,7 @@ export default function App() {
   const handlePress = () => {
     setCount(count + 1);
     const num = parseInt(inputNum);
+    setInputNum("");
     if (num < randomNum) {
       setMessage(`Your guess ${num} is too low`);
     } else if (num > randomNum) {
@@ -36,14 +37,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {count == 1 ? (
-        <Text>Guess a number between 1-100 {randomNum}</Text>
-      ) : (
-        <Text>{message}</Text>
-      )}
+      <Text>{message}</Text>
       <TextInput
         style={styles.input}
         keyboardType="numeric"
+        value={inputNum}
         onChangeText={(text) => setInputNum(text)}
       ></TextInput>
 
